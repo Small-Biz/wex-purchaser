@@ -1,5 +1,6 @@
 package com.wex.purchaser.service;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -44,6 +45,10 @@ public class TransactionService {
 		
 		if (request.getAmount() == null) {
 			throw new ServiceException("Amount must not be null");
+		}
+		
+		if (request.getAmount().compareTo(BigDecimal.ZERO) < 0 ) {
+			throw new ServiceException("Amount should be positive");
 		}
 		
 		if (request.getAmount().scale() > 2) {

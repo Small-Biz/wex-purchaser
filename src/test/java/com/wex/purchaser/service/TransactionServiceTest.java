@@ -45,6 +45,7 @@ public class TransactionServiceTest {
 	//insert success
 	//insert with null description
 	//insert with null amount
+	//insert with negative amount
 	//insert with too long description
 	//insert with amount with dp more than 2
 	
@@ -106,7 +107,7 @@ public class TransactionServiceTest {
 	
 	@DisplayName("Transaction-Insert with null amount")
 	@Test
-	public void createTransaction_NullAmount() throws ServiceException {
+	public void createTransaction_nullAmount() throws ServiceException {
 		
 		CreateTransactionRequest request=new CreateTransactionRequest();
 		request.setDescription("Transaction Description");
@@ -117,6 +118,25 @@ public class TransactionServiceTest {
 		});
 		
 		String expectedMessage = "Amount must not be null";
+	    String actualMessage = exception.getMessage();
+	
+	    assertTrue(actualMessage.contains(expectedMessage));
+		
+	}
+	
+	@DisplayName("Transaction-Insert with negative amount")
+	@Test
+	public void createTransaction_negativeAmount() throws ServiceException {
+		
+		CreateTransactionRequest request=new CreateTransactionRequest();
+		request.setDescription("Transaction Description");
+		request.setAmount(new BigDecimal(-123));		
+		
+		Exception exception=assertThrows(ServiceException.class, ()->{
+			service.createTransaction(request);
+		});
+		
+		String expectedMessage = "Amount should be positive";
 	    String actualMessage = exception.getMessage();
 	
 	    assertTrue(actualMessage.contains(expectedMessage));
