@@ -34,13 +34,17 @@ public class TransactionController {
 	private TransactionService service;
 	
 	@PostMapping("/transactions")
-	public ResponseEntity<CreateTransactionResponse> create(@RequestBody CreateTransactionRequest request) throws ServiceException{
+	public ResponseEntity<AbstractResponse> create(@RequestBody CreateTransactionRequest request) throws ServiceException{
 
 		log.info("create transaction");
-		service.createTransaction(request);
-		CreateTransactionResponse response=new CreateTransactionResponse();
-		log.info("create transaction done");
-		return ResponseEntity.ok(response);
+		try {
+			service.createTransaction(request);
+			CreateTransactionResponse response=new CreateTransactionResponse();
+			log.info("create transaction done");
+			return ResponseEntity.ok(response);
+		} catch (ServiceException e) {
+			return ResponseEntity.ok( new AbstractResponse(e.getMessage()));			
+		}
 	}
 	
 	@GetMapping("/transaction")
