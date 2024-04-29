@@ -33,7 +33,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService service;
 	
-	@PostMapping("/transactions")
+	@PostMapping("/transaction")
 	public ResponseEntity<AbstractResponse> create(@RequestBody CreateTransactionRequest request) throws ServiceException{
 
 		log.info("create transaction");
