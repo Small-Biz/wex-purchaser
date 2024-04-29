@@ -24,6 +24,10 @@ import com.wex.purchaser.service.TransactionService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Business Layer for purchase transactions
+ * @author Ray Cheng
+ */
 @RestController
 @CrossOrigin()
 @RequestMapping(path = "/api/purchaser")
@@ -33,6 +37,9 @@ public class TransactionController {
 	@Autowired
 	private TransactionService service;
 	
+	/**
+	 * End point for store purchase transaction
+	 */
 	@PostMapping("/transaction")
 	public ResponseEntity<AbstractResponse> create(@RequestBody CreateTransactionRequest request) throws ServiceException{
 
@@ -46,7 +53,10 @@ public class TransactionController {
 			return ResponseEntity.ok( new AbstractResponse(e.getMessage()));			
 		}
 	}
-	
+
+	/**
+	 * End point for retrieve last purchase transaction and convert the amount with specific currency
+	 */
 	@GetMapping("/transaction")
 	public ResponseEntity<AbstractResponse> enquireLastTransaction(@PathParam("currency") String currency){
 				
@@ -61,6 +71,9 @@ public class TransactionController {
 		}
 	}
 	
+	/**
+	 * End point for retrieve last purchase transaction and convert the amount with specific currency
+	 */
 	@GetMapping("/transactions")
 	public ResponseEntity<AbstractResponse> list(@PathParam("currency") String currency){
 				

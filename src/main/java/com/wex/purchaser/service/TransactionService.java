@@ -25,6 +25,10 @@ import com.wex.purchaser.repository.TransactionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Business Layer for purchase transactions
+ * @author    Ray Cheng
+ */
 @Slf4j
 @Service
 public class TransactionService {
@@ -37,6 +41,12 @@ public class TransactionService {
 
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
+	   /**
+	   * This method is used to create purchase transaction 
+	   * and store into DB
+	   * @param CreateTransactionRequest This field contain description and amount for the new transaction
+	   * @return Transaction This returns saved transaction
+	   */
 	public Transaction createTransaction(CreateTransactionRequest request) throws ServiceException {
 		
 		if (request.getDescription() == null ) {
@@ -69,6 +79,11 @@ public class TransactionService {
 		
 	}
 	
+	   /**
+	   * This method is used to retrieve last purchase transaction. 
+	   * @param currency This is the currency user require
+	   * @return transaction This returns transaction with the amount in required currency
+	   */
 	public TransactionDTO enquireLastTransaction(String currency) throws ServiceException {
 		
 		if (currency == null ) {
@@ -98,6 +113,11 @@ public class TransactionService {
 		}
 	}
 	
+	   /**
+	   * This method is used to list all purchase transactions in DB. 
+	   * @param currency This is the currency user require
+	   * @return transactionList This returns transaction list with the amount in required currency
+	   */
 	public List<TransactionDTO> listTransaction(String currency) throws ServiceException {
 		
 		if (currency == null ) {
@@ -124,6 +144,14 @@ public class TransactionService {
 		}
 	}
 	
+	   /**
+	   * This is the mapping function for transaction from Entity to DTO.
+	   * It parse the exchange rate which before transaction date and within 6 months for converting new amount in 
+	   * user required currency.
+	   * @param transaction Transaction Entity from DB
+	   * @param rateList exchange rate list for related currency
+	   * @return transaction This returns transaction with the amount in required currency
+	   */
 	private TransactionDTO mapToDTO( Transaction transaction, List<ExchangeRate> rateList){
 		if ( transaction==null) {
 			return null;
@@ -151,6 +179,13 @@ public class TransactionService {
 		
 	}
 	
+	   /**
+	   * Function for check if date between startDate and endDate
+	   * @param date
+	   * @param startDate start of the range
+	   * @param endDate end of the range
+	   * @return return true if date is within the range
+	   */
 	private boolean checkExchangeDate(String date, String startDate, String endDate) {
 		int dateInt=exchangeDateToInt(date);
 		int startDateInt=exchangeDateToInt(startDate);
@@ -162,6 +197,11 @@ public class TransactionService {
 		return false;
 	}
 	
+	   /**
+	   * Function for convert date from string to integer 
+	   * @param date in string with yyyy-MM-dd format
+	   * @return return yyyyMMdd in integer  
+	   */
 	private int exchangeDateToInt( String date){
 		
 		return Integer.valueOf( date.replaceAll("-", ""));

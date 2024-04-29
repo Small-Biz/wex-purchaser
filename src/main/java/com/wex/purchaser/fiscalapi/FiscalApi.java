@@ -9,6 +9,10 @@ import com.wex.purchaser.exception.ServiceException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Fiscal API for obtain exchange rate from FiscalData
+ * @author    Ray Cheng
+ */
 @Slf4j
 @Component
 public class FiscalApi {
@@ -19,13 +23,19 @@ public class FiscalApi {
 	//,record_date:gte:2020-01-01
 	final static String EXCHANGE_RATE_ENDPOINT="https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,effective_date,record_date&filter=country_currency_desc:in:(%s),effective_date:gte:%s";
 
-	//date: in yyyy-MM-dd format
-	public List<ExchangeRate> parseExchangeRate( String toCurrency, String date) throws ServiceException {
+	   /**
+	   * This method is call fiscal API with current and date
+	   * , then parse the exchange rate list from the response
+	   * @param currency The currency for the exchange rate
+	   * @param date This is the earliest date. string and in yyyy-MM-dd format
+	   * @return exchangeRateList It return the exchange rate list return from the fisal API
+	   */
+	public List<ExchangeRate> parseExchangeRate( String currency, String date) throws ServiceException {
 		 
-		log.info("toCurrency: "+ toCurrency+ " date: " + date);
+		log.info("currency: "+ currency+ " date: " + date);
 		
 		RestTemplate template=new RestTemplate();
-		String url=String.format(EXCHANGE_RATE_ENDPOINT, toCurrency, date);
+		String url=String.format(EXCHANGE_RATE_ENDPOINT, currency, date);
 
 		ResponseEntity<ApiResponse> response=template.getForEntity(url, ApiResponse.class);		
 		

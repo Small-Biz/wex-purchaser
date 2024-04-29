@@ -17,6 +17,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+* Hero is the main entity we'll be using for purchase transaction
+* 
+* @author Ray Cheng
+* 
+*/
+
 @Entity
 @Builder
 @Getter
