@@ -11,6 +11,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+* This object is the exchange rate return from fiscaldata
+* 
+* @author Ray Cheng
+* 
+*/
 @Data
 @Builder
 @AllArgsConstructor
